@@ -3,7 +3,6 @@ import { grabToken } from './main';
 
 export async function getToken(username, password) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
-    // credentials: 'include',
     mode: 'cors',
     method: 'POST',
     headers: {
@@ -17,7 +16,6 @@ export async function getToken(username, password) {
 
 export async function getMovies() {
   const res = await fetch(`${BASE_URL}/movies`, {
-    // credentials: 'include',
     mode: 'cors',
     method: 'GET',
     headers: {
