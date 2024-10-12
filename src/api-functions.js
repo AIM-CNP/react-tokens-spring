@@ -1,5 +1,4 @@
 import { BASE_URL } from './config';
-import { grabToken } from './main';
 
 export async function getToken(username, password) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -11,17 +10,23 @@ export async function getToken(username, password) {
     body: JSON.stringify({ username: 'admin', password: 'admin' }),
   });
   const token = await res.json();
+  window.sessionStorage.setItem('token', token.accessToken);
   return token.accessToken;
 }
 
 export async function getMovies() {
-  const res = await fetch(`${BASE_URL}/movies`, {
-    mode: 'cors',
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${grabToken()}`,
-    },
-  });
-  const data = await res.json();
-  return data;
+  const token = window.sessionStorage.getItem('token');
+  if (token) {
+    const res = await fetch(`${BASE_URL}/movies`, {
+      mode: 'cors',
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    return data;
+  } else {
+    throw new Error('No Token');
+  }
 }

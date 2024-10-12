@@ -3,9 +3,17 @@ import { getMovies } from './api-functions';
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      setToken(sessionStorage.getItem('token'));
+    }
+  }, []);
+
   useEffect(() => {
     const fetchMovies = async () => {
-      const result = await getMovies();
+      const result = await getMovies(token);
       setMovies(result);
     };
     fetchMovies();

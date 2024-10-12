@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { getToken } from './api-functions';
-import { setToken } from './main';
 
 export default function Login({ setLoggedIn }) {
   const [username, setUsername] = useState('');
@@ -11,9 +10,8 @@ export default function Login({ setLoggedIn }) {
 
     try {
       const token = await getToken(username, password);
-      setToken(token);
+      console.log(token);
       setLoggedIn(true);
-      console.log('logged in', token);
     } catch (e) {
       console.log(e);
     }
